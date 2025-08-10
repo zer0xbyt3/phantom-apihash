@@ -13,4 +13,10 @@ fn main() {
     println!("loaded {} bytes from {}", parser.cursor().len(), file_path);
 
     dbg!(parser.parse_dos_header());
+    match parser.parse_pe_signature() {
+        Ok((sig, e_lfanew)) => {
+            println!("PE signature: 0x{:08X} at offset 0x{:X}", sig, e_lfanew);
+        }
+        Err(e) => eprintln!("PE signature error: {:?}", e),
+    }
 }
